@@ -20,6 +20,9 @@ a {
   body {
     font-size: 16px;
   }
+  .image-padding {
+    margin-left: 0px;
+  }
 }
 @media only screen and (min-width: 480px) and (max-width: 768px) {
   body {
@@ -29,6 +32,9 @@ a {
     max-width: 100%;
     padding: 10px;
   }
+  .image-padding {
+    margin-left: 0px;
+  }
 }
 @media only screen and (max-width: 479px) {
   body {
@@ -37,6 +43,9 @@ a {
   .login_container {
     max-width: 100%;
     padding: 20px;
+  }
+  .image-padding {
+    margin: 0px !important;
   }
 }
 .bg-image {
@@ -55,7 +64,6 @@ a {
   width: 600px;
   margin: auto;
   padding-bottom: 200px;
-  z-index: 1;
 }
 .logo-button {
   color: #f9f9f9;
@@ -128,4 +136,13 @@ a {
 
 .link:hover::before {
   background-size: 100% 2px;
+}
+.image-padding {
+  margin-left: 350px;
+}
+.user-image {
+  border-radius: 50%;
+}
+.signout {
+  cursor: pointer;
 }
