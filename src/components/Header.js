@@ -15,37 +15,39 @@ function Header() {
   const dispatch = useDispatch();
   const history = useHistory();
   const userName = useSelector(selectUserName);
-  // const userEmail = useSelector(selectUserEmail);
   const userPhoto = useSelector(selectUserPhoto);
+
   useEffect(() => {
-    auth.onAuthStateChanged(async () => {
-      history.push("/home");
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        setUser(user);
+        history.push("/home");
+      }
     });
   }, [userName]);
-  const signOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        dispatch(setSignOutState());
-        history.push("/");
-        localStorage.clear("accessToken");
-      })
-      .catch((err) => {
-        alert(err.message);
-      });
-  };
+
   const handleAuth = () => {
-    auth
-      .signInWithPopup(provider)
-      .then((result) => {
-        setUser(result.user);
-        // const accessToken = result.credential.accessToken;
-        // // Save the access token in localStorage
-        // localStorage.setItem("accessToken", accessToken);
-      })
-      .catch((error) => {
-        // alert(error.message);
-      });
+    if (!userName) {
+      auth
+        .signInWithPopup(provider)
+        .then((result) => {
+          // setUser(result.user);
+          const refreshToken = result.user.refreshToken;
+          localStorage.setItem("refreshtoken", refreshToken);
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    } else if (userName) {
+      auth
+        .signOut()
+        .then(() => {
+          dispatch(setSignOutState());
+          history.push("/");
+          localStorage.removeItem("refreshtoken");
+        })
+        .catch((err) => alert(err.message));
+    }
   };
 
   const setUser = (user) => {
@@ -150,9 +152,8 @@ function Header() {
                               alt={userName}
                               width="60px"
                               className="user-image"
-                              user-image
                             />
-                            <span className="ps-2 signout" onClick={signOut}>
+                            <span className="ps-2 signout" onClick={handleAuth}>
                               SignOut
                             </span>
                           </div>
