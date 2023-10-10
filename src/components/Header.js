@@ -4,7 +4,6 @@ import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { auth, provider } from "../firebase";
 import {
   selectUserName,
-  selectUserEmail,
   selectUserPhoto,
   setUserLoginDetails,
   setSignOutState,
